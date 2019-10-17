@@ -15,7 +15,7 @@ public class Player {
 
     public boolean Move(Map m, Vector2 change) throws Exception {
         if(Math.abs(change.x)>1 || Math.abs(change.y)>1)
-            throw new Exception("Change Vector too long!");
+            throw new Exception("Change Vector is too long!");
 
         Vector2 to = Vector2.add(location,change);
         if(m.validMove(location,to)) { //valid move

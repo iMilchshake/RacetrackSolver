@@ -8,6 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Vector;
 
 public class UI {
 
@@ -28,9 +29,6 @@ public class UI {
     }
 
     public static void MouseClicked(int x, int y) {
-        System.out.println("ran");
-        panel.getGraphics().setColor(Color.GREEN);
-        panel.myGrid.FillCell(panel.getGraphics(),3,3,panel.myGrid.actualCellSize);
         panel.repaint();
     }
 }
@@ -39,6 +37,7 @@ class MyPanel extends JPanel {
 
     int width, height;
     Grid myGrid;
+    Vector2 highlightCell;
 
     public MyPanel(Map map) {
         setBorder(BorderFactory.createLineBorder(Color.black));
@@ -49,6 +48,8 @@ class MyPanel extends JPanel {
         addMouseListener(new MouseAdapter(){
             public void mousePressed(MouseEvent e){
                 UI.MouseClicked(e.getX(),e.getY());
+                highlightCell = myGrid.CoordsToCell(new Vector2(e.getX(),e.getY()));
+                System.out.println(e.getX()+"-"+e.getY()+"-"+highlightCell.x+"-"+highlightCell.y);
             }
         });
     }
@@ -62,6 +63,10 @@ class MyPanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         myGrid.printGrid(g, getSize().width, getSize().height);
+
+        if(highlightCell!=null){
+            myGrid.FillCell(g,highlightCell.x,highlightCell.y,myGrid.actualCellSize);
+        }
     }
 }
 
@@ -76,9 +81,7 @@ class Grid {
         this.map = map;
     }
 
-    public Vector2 getCellMid(int cellX, int cellY, int cellSize) {
-        return new Vector2((cellSize + 1) * cellX + 1 + (cellSize/2),(cellSize + 1) * cellY + 1 + (cellSize/2));
-    }
+
 
     public void printGrid(Graphics g, int width, int height) {
 
@@ -122,6 +125,8 @@ class Grid {
 
         g.drawLine(amid.x,amid.y,bmid.x,bmid.y);
         g.setColor(Color.GREEN);
+
+
         //FillCell(g,a.x,a.y,actualCellSize);
         //FillCell(g,b.x,b.y,actualCellSize);
     }
@@ -162,10 +167,23 @@ class Grid {
             FillCell(g,x,y,cellSize);
         }
     }
+
     public int sign(int x) {
         return (x > 0) ? 1 : (x < 0) ? -1 : 0;
     }
+
     public void FillCell(Graphics g, int cellX, int cellY, int cellSize) {
         g.fillRect((cellSize + 1) * cellX + 1, (cellSize + 1) * cellY + 1, cellSize, cellSize);
+    }
+
+    public Vector2 getCellMid(int cellX, int cellY, int cellSize) {
+        return new Vector2((cellSize + 1) * cellX + 1 + (cellSize/2),(cellSize + 1) * cellY + 1 + (cellSize/2));
+    }
+
+    public Vector2 CoordsToCell(Vector2 windowCoords) {
+        //CellX = floor(WindowCoordsX-1)/(CellSize+1)
+        double CellX = Math.floor(((double)windowCoords.x-1)/((double)actualCellSize+1));
+        double CellY = Math.floor(((double)windowCoords.y-1)/((double)actualCellSize+1));
+        return new Vector2((int)CellX,(int)CellY);
     }
 }
