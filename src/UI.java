@@ -1,23 +1,37 @@
 import com.sun.javafx.geom.Vec2d;
+import com.sun.prism.GraphicsPipeline;
 import sun.java2d.loops.DrawLine;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class UI {
+
+    public static MyPanel panel;
+
     public static void createAndShowGUI(Map map) {
         System.out.println("Created GUI on EDT? " +
                 SwingUtilities.isEventDispatchThread());
         JFrame f = new JFrame("Custom Title");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        f.add(new MyPanel(map));
+        panel = new MyPanel(map);
+        f.add(panel);
         f.pack();
 
         f.setSize(500, 500);
         f.setVisible(true);
+    }
+
+    public static void MouseClicked(int x, int y) {
+        System.out.println("ran");
+        panel.getGraphics().setColor(Color.GREEN);
+        panel.myGrid.FillCell(panel.getGraphics(),3,3,panel.myGrid.actualCellSize);
+        panel.repaint();
     }
 }
 
@@ -31,7 +45,15 @@ class MyPanel extends JPanel {
         width = this.getSize().width;
         height = this.getSize().height;
         myGrid = new Grid(map);
+
+        addMouseListener(new MouseAdapter(){
+            public void mousePressed(MouseEvent e){
+                UI.MouseClicked(e.getX(),e.getY());
+            }
+        });
     }
+
+
 
     public Dimension getPreferredSize() {
         return new Dimension(250, 250);
@@ -39,18 +61,13 @@ class MyPanel extends JPanel {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        // Draw Text
-        //g.drawString("This is my custom Panel!",10,20);
-        //g.drawLine(0,0,getSize().width,getSize().height);
         myGrid.printGrid(g, getSize().width, getSize().height);
-        //System.out.println(this.getSize().toString());
     }
 }
 
 class Grid {
 
-    public int CellCountX, CellCountY;
+    public int CellCountX, CellCountY, actualCellSize, gridWidth, gridHeight;
     Map map;
 
     public Grid(Map map) {
@@ -67,9 +84,9 @@ class Grid {
 
         int maxCellSizeX = (width - CellCountX - 1) / CellCountX;
         int maxCellSizeY = (height - CellCountY - 1) / CellCountY;
-        int actualCellSize = Math.min(maxCellSizeX, maxCellSizeY);
-        int gridWidth = CellCountX * actualCellSize + (CellCountX); //Cells + Borders
-        int gridHeight = CellCountY * actualCellSize + (CellCountY);
+        actualCellSize = Math.min(maxCellSizeX, maxCellSizeY);
+        gridWidth = CellCountX * actualCellSize + (CellCountX); //Cells + Borders
+        gridHeight = CellCountY * actualCellSize + (CellCountY);
 
         //Draw Grid (x bars)
         for (int x = 0; x < CellCountX + 1; x++) {
@@ -104,7 +121,6 @@ class Grid {
             g.setColor(Color.RED);
 
         g.drawLine(amid.x,amid.y,bmid.x,bmid.y);
-
         g.setColor(Color.GREEN);
         //FillCell(g,a.x,a.y,actualCellSize);
         //FillCell(g,b.x,b.y,actualCellSize);
