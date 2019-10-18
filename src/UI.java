@@ -49,7 +49,16 @@ class MyPanel extends JPanel {
             public void mousePressed(MouseEvent e){
                 UI.MouseClicked(e.getX(),e.getY());
                 highlightCell = myGrid.CoordsToCell(new Vector2(e.getX(),e.getY()));
-                System.out.println(e.getX()+"-"+e.getY()+"-"+highlightCell.x+"-"+highlightCell.y);
+
+                if(e.getButton()==1) {
+                    myGrid.map.setCell(highlightCell.x, highlightCell.y, 1);
+
+                } else {
+                    myGrid.map.setCell(highlightCell.x, highlightCell.y, 0);
+                    System.out.println(map.exportMap());
+                }
+
+                System.out.println(e.getX()+"-"+e.getY()+"-"+highlightCell.x+"-"+highlightCell.y+" -> "+e.getButton());
             }
         });
     }

@@ -1,7 +1,9 @@
 import java.awt.*;
+import java.util.ArrayList;
 
 public class RaceGame {
     public Map currentMap;
+    public ArrayList<Player> players = new ArrayList<Player>();
 
 
     public static void main(String[] args) throws Exception {

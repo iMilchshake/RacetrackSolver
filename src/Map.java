@@ -88,6 +88,25 @@ public class Map {
         return (x > 0) ? 1 : (x < 0) ? -1 : 0;
     }
 
+    public String exportMap() {
+        String output = "";
+        for(int x = 0; x < width; x++) {
+            for(int y = 0; y < height; y++) {
+                output+=getCell(x,y);
+            }
+        }
+        return output;
+    }
+
+    public void importMap(String mapString) {
+        int i = 0;
+        for(int x = 0; x < width; x++) {
+            for(int y = 0; y < height; y++) {
+                setCell(x,y,mapString.charAt(i++));
+            }
+        }
+    }
+
     public String toString() {
         return "["+name+" - ("+width+","+height+")]";
     }
