@@ -7,7 +7,7 @@ public class RaceGame {
 
 
     public static void main(String[] args) throws Exception {
-        Map myMap = new Map("myMap",10,9);
+        Map myMap = new Map("myMap",25,25);
         int[][] tmp =  {{1,1,1,1,1,1,1,1,1},
                         {1,0,0,0,0,0,0,0,1},
                         {1,0,0,0,0,0,0,0,1},

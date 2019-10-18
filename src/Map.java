@@ -102,7 +102,7 @@ public class Map {
         int i = 0;
         for(int x = 0; x < width; x++) {
             for(int y = 0; y < height; y++) {
-                setCell(x,y,mapString.charAt(i++));
+                setCell(x,y,Integer.parseInt(""+mapString.charAt(i++)));
             }
         }
     }

@@ -1,11 +1,9 @@
-import com.sun.javafx.geom.Vec2d;
-import com.sun.prism.GraphicsPipeline;
-import sun.java2d.loops.DrawLine;
+//import com.sun.prism.GraphicsPipeline;
+//import sun.java2d.loops.DrawLine;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Vector;
@@ -26,6 +24,7 @@ public class UI {
 
         f.setSize(500, 500);
         f.setVisible(true);
+
     }
 
     public static void MouseClicked(int x, int y) {
@@ -37,33 +36,19 @@ class MyPanel extends JPanel {
 
     int width, height;
     Grid myGrid;
-    Vector2 highlightCell;
 
     public MyPanel(Map map) {
+        setFocusable(true);
         setBorder(BorderFactory.createLineBorder(Color.black));
         width = this.getSize().width;
         height = this.getSize().height;
         myGrid = new Grid(map);
 
-        addMouseListener(new MouseAdapter(){
-            public void mousePressed(MouseEvent e){
-                UI.MouseClicked(e.getX(),e.getY());
-                highlightCell = myGrid.CoordsToCell(new Vector2(e.getX(),e.getY()));
-
-                if(e.getButton()==1) {
-                    myGrid.map.setCell(highlightCell.x, highlightCell.y, 1);
-
-                } else {
-                    myGrid.map.setCell(highlightCell.x, highlightCell.y, 0);
-                    System.out.println(map.exportMap());
-                }
-
-                System.out.println(e.getX()+"-"+e.getY()+"-"+highlightCell.x+"-"+highlightCell.y+" -> "+e.getButton());
-            }
-        });
+        addKeyListener(new MyKeyListener(this));
+        MyMouseListener mListener = new MyMouseListener(this);
+        addMouseListener(mListener);
+        addMouseMotionListener(mListener);
     }
-
-
 
     public Dimension getPreferredSize() {
         return new Dimension(250, 250);
@@ -72,10 +57,6 @@ class MyPanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         myGrid.printGrid(g, getSize().width, getSize().height);
-
-        if(highlightCell!=null){
-            myGrid.FillCell(g,highlightCell.x,highlightCell.y,myGrid.actualCellSize);
-        }
     }
 }
 
@@ -119,25 +100,6 @@ class Grid {
                 }
             }
         }
-
-        Random rnd = new Random();
-        Vector2 a = new Vector2(2,2);
-        Vector2 b = new Vector2(6,4);
-        Vector2 amid = getCellMid(a.x,a.y,actualCellSize);
-        Vector2 bmid = getCellMid(b.x,b.y,actualCellSize);
-
-        //DrawCellLine(g,a.x,a.y,b.x,b.y,actualCellSize);
-        if(map.validMove(a,b))
-            g.setColor(Color.GREEN);
-        else
-            g.setColor(Color.RED);
-
-        g.drawLine(amid.x,amid.y,bmid.x,bmid.y);
-        g.setColor(Color.GREEN);
-
-
-        //FillCell(g,a.x,a.y,actualCellSize);
-        //FillCell(g,b.x,b.y,actualCellSize);
     }
 
     public void DrawCellLine(Graphics g, int x1, int y1, int x2, int y2,int cellSize) {
