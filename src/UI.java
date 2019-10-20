@@ -110,8 +110,14 @@ class Grid {
     public void drawPlayers(Graphics g, ArrayList<Player> playerList) {
         for(Player p: playerList) {
             System.out.println("printed player at"+p.location);
-            g.drawOval(getCellMid(p.location.x,p.location.y,actualCellSize).x,getCellMid(p.location.x,p.location.y,actualCellSize).y,actualCellSize/2,actualCellSize/2);
+            //g.drawOval(getCellMid(p.location.x,p.location.y,actualCellSize).x,getCellMid(p.location.x,p.location.y,actualCellSize).y,actualCellSize/2,actualCellSize/2);
+            drawPlayer(g,p);
         }
+    }
+
+    public void drawPlayer(Graphics g, Player p) {
+        g.setColor(Color.BLACK);
+        g.drawOval(getCellMid(p.location.x,p.location.y,actualCellSize).x-actualCellSize/4,getCellMid(p.location.x,p.location.y,actualCellSize).y-actualCellSize/4,actualCellSize/2,actualCellSize/2);
     }
 
     public void DrawCellLine(Graphics g, int x1, int y1, int x2, int y2,int cellSize) {

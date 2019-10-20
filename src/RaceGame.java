@@ -20,8 +20,9 @@ public class RaceGame {
 
             Player tmpPlayer = new Player("testPlayer",myMap.getSpawns().get(0));
             players.add(tmpPlayer);
-
             UI.panel.repaint();
+
+
         } else if (selection == 2) {
             mode=2;
             Map myMap = new Map("testMap",25,25);
