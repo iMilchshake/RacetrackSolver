@@ -20,9 +20,11 @@ public class MyMouseListener extends MouseAdapter {
     }
 
     public void mousePressedOrDragged(MouseEvent e) {
+        if(RaceGame.mode==2) { //editor
         UI.MouseClicked(e.getX(),e.getY());
         Vector2 coords = panel.myGrid.CoordsToCell(new Vector2(e.getX(),e.getY()));
         if(SwingUtilities.isLeftMouseButton(e))
             panel.myGrid.map.setCell(coords.x, coords.y, panel.myGrid.map.editorDrawMode);
+        }
     }
 }

@@ -36,7 +36,6 @@ class MyPanel extends JPanel {
 
     int width, height;
     Grid myGrid;
-    RaceGame myGame;
 
     public MyPanel(Map map) {
         setFocusable(true);
@@ -58,7 +57,7 @@ class MyPanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         myGrid.printGrid(g, getSize().width, getSize().height);
-        myGrid.printPlayers(RaceGame.players);
+        myGrid.drawPlayers(g,RaceGame.players);
     }
 }
 
@@ -72,8 +71,6 @@ class Grid {
         this.CellCountY = map.height;
         this.map = map;
     }
-
-
 
     public void printGrid(Graphics g, int width, int height) {
 
@@ -110,8 +107,9 @@ class Grid {
         }
     }
 
-    public void printPlayers(Graphics g, ArrayList<Player> playerList) {
+    public void drawPlayers(Graphics g, ArrayList<Player> playerList) {
         for(Player p: playerList) {
+            System.out.println("printed player at"+p.location);
             g.drawOval(getCellMid(p.location.x,p.location.y,actualCellSize).x,getCellMid(p.location.x,p.location.y,actualCellSize).y,actualCellSize/2,actualCellSize/2);
         }
     }
