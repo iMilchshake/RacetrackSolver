@@ -36,6 +36,7 @@ class MyPanel extends JPanel {
 
     int width, height;
     Grid myGrid;
+    RaceGame myGame;
 
     public MyPanel(Map map) {
         setFocusable(true);
@@ -57,6 +58,7 @@ class MyPanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         myGrid.printGrid(g, getSize().width, getSize().height);
+        myGrid.printPlayers(RaceGame.players);
     }
 }
 
@@ -97,8 +99,20 @@ class Grid {
                 if(map.getCell(x,y)==1) {
                     g.setColor(Color.BLACK);
                     FillCell(g, x, y, actualCellSize);
+                } else if (map.getCell(x,y)==2) {
+                    g.setColor(Color.YELLOW);
+                    FillCell(g, x, y, actualCellSize);
+                } else if (map.getCell(x,y)==3) {
+                    g.setColor(Color.GREEN);
+                    FillCell(g, x, y, actualCellSize);
                 }
             }
+        }
+    }
+
+    public void printPlayers(Graphics g, ArrayList<Player> playerList) {
+        for(Player p: playerList) {
+            g.drawOval(getCellMid(p.location.x,p.location.y,actualCellSize).x,getCellMid(p.location.x,p.location.y,actualCellSize).y,actualCellSize/2,actualCellSize/2);
         }
     }
 

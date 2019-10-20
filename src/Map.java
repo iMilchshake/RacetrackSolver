@@ -1,8 +1,12 @@
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class Map {
 
     public String name;
     public int width, height;
-    private int[][] grid; //1=Wall, 0=Empty Cell
+    private int[][] grid; //1=Wall, 0=Empty Cell, 2=Spawn, 3=Checkpoint
+    public int editorDrawMode = 1; //wall default/
 
     public Map(String name, int width, int height) throws Exception {
         this.name = name;
@@ -29,7 +33,7 @@ public class Map {
             grid[x][y] = state;
         } catch (Exception e) {
             System.err.println("Invalid Cell was accessed. x="+x+", y="+y+" Map: "+this);
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
     public int getCell(int x, int y) {
@@ -105,6 +109,18 @@ public class Map {
                 setCell(x,y,Integer.parseInt(""+mapString.charAt(i++)));
             }
         }
+    }
+
+    public ArrayList<Vector2> getSpawns() {
+        ArrayList<Vector2> spawns = new ArrayList<Vector2>();
+        for(int x = 0; x < width; x++) {
+            for(int y = 0; y < height; y++) {
+                if(getCell(x,y)==2) { //Found a Spawn
+                    spawns.add(new Vector2(x,y));
+                }
+            }
+        }
+        return spawns;
     }
 
     public String toString() {

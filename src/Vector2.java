@@ -8,4 +8,9 @@ public class Vector2 {
     public static Vector2 add(Vector2 a, Vector2 b) {
         return new Vector2(a.x+b.x,a.y+b.y);
     }
+
+    @Override
+    public String toString() {
+        return "["+x+","+y+"]";
+    }
 }
