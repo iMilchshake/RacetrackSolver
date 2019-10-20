@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.io.Console;
 import java.util.ArrayList;
 
 public class RaceGame {
@@ -6,27 +7,31 @@ public class RaceGame {
     public ArrayList<Player> players = new ArrayList<Player>();
 
 
-    public static void main(String[] args) throws Exception {
-        Map myMap = new Map("myMap",25,25);
-        int[][] tmp =  {{1,1,1,1,1,1,1,1,1},
-                        {1,0,0,0,0,0,0,0,1},
-                        {1,0,0,0,0,0,0,0,1},
-                        {1,0,0,1,1,1,0,0,1},
-                        {1,0,0,0,0,1,1,0,1},
-                        {1,0,0,0,0,0,0,0,1},
-                        {1,0,0,0,0,0,0,0,1},
-                        {1,0,0,0,0,0,0,0,1},
-                        {1,0,0,0,0,0,0,0,1},
-                        {1,1,1,1,1,1,1,1,1}};
-        myMap.importArrayAsMap(tmp,1,0);
-        System.out.println(myMap.getCell(0,0));
 
-        UI.createAndShowGUI(myMap);
+
+    public static void main(String[] args) throws Exception {
+
+
+
+        String[] subMenuEntries = { "[1] Race", "[2] Map Editor", "[3] Exit" };
+        System.out.print(MenuBuilder.BuildMenu("Racetrack", subMenuEntries, "fonts/standard.flf", 2, 1, 1, 0, 0));
+        Integer selection = Integer.parseInt(MenuBuilder.ConsoleInput("Selection: "));
+
+        if(selection==1) {
+            System.exit(1);
+        } else if (selection == 2) {
+            Map myMap = new Map("testMap",25,25);
+            UI.createAndShowGUI(myMap);
+        }
+        else {
+            System.exit(2);
+        }
+
+
+
     }
 
     public RaceGame(Map currentMap) {
         this.currentMap = currentMap;
     }
-
-
 }

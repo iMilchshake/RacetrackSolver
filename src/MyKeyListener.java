@@ -13,12 +13,11 @@ public class MyKeyListener extends KeyAdapter {
 
     public void keyPressed(KeyEvent e) {
         if(e.getKeyChar()=='i') {
-            System.out.println("Enter Map");
-            Scanner sc = new Scanner(System.in);
-            String map = sc.next();
-            sc.close();
+            String map = MenuBuilder.ConsoleInput("Enter Map: ");
             panel.myGrid.map.importMap(map);
             panel.repaint();
+        } else if (e.getKeyChar()=='e') {
+            System.out.println(panel.myGrid.map.exportMap());
         }
     }
 

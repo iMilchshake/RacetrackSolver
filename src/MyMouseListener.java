@@ -38,7 +38,6 @@ public class MyMouseListener extends MouseAdapter {
 
         } else {
             panel.myGrid.map.setCell(coords.x, coords.y, 0);
-            System.out.println(panel.myGrid.map.exportMap());
         }
 
         System.out.println(e.getX()+"-"+e.getY()+"-"+coords.x+"-"+coords.y+" -> "+e.getButton());
