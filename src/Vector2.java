@@ -9,6 +9,10 @@ public class Vector2 {
         return new Vector2(a.x+b.x,a.y+b.y);
     }
 
+    public static Vector2 substract(Vector2 a, Vector2 b) {
+        return new Vector2(a.x-b.x,a.y-b.y);
+    }
+
     @Override
     public String toString() {
         return "["+x+","+y+"]";

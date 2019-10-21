@@ -57,7 +57,10 @@ class MyPanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         myGrid.printGrid(g, getSize().width, getSize().height);
-        myGrid.drawPlayers(g,RaceGame.players);
+        myGrid.drawPlayers(g, RaceGame.players);
+        if (RaceGame.mode == 1) {
+            myGrid.drawPossibleMoves(g, RaceGame.currentPlayer);
+        }
     }
 }
 
@@ -70,6 +73,22 @@ class Grid {
         this.CellCountX = map.width;
         this.CellCountY = map.height;
         this.map = map;
+    }
+
+    public void drawPossibleMoves(Graphics g, Player p) {
+        if(p==null || p.location==null)
+            return;
+
+        g.setColor(new Color(0,0,0,150));
+        for (int x = -1; x <= 1; x++) { //-1 0 1
+            for (int y = -1; y <= 1; y++) {//-1 0 1
+                System.out.println(p.location + " - " + p.velocity);
+                Vector2 to = Vector2.add(p.location, p.velocity); //estimated location after moving
+                if(map.validMove(p.location,new Vector2(to.x+x,to.y+y))) {
+                   FillCell(g, to.x + x, to.y + y, actualCellSize);
+                }
+            }
+        }
     }
 
     public void printGrid(Graphics g, int width, int height) {
@@ -91,15 +110,15 @@ class Grid {
         }
 
         //Draw Walls
-        for(int x = 0; x < CellCountX; x++) {
-            for(int y = 0; y < CellCountY; y++) {
-                if(map.getCell(x,y)==1) {
+        for (int x = 0; x < CellCountX; x++) {
+            for (int y = 0; y < CellCountY; y++) {
+                if (map.getCell(x, y) == 1) {
                     g.setColor(Color.BLACK);
                     FillCell(g, x, y, actualCellSize);
-                } else if (map.getCell(x,y)==2) {
+                } else if (map.getCell(x, y) == 2) {
                     g.setColor(Color.YELLOW);
                     FillCell(g, x, y, actualCellSize);
-                } else if (map.getCell(x,y)==3) {
+                } else if (map.getCell(x, y) == 3) {
                     g.setColor(Color.GREEN);
                     FillCell(g, x, y, actualCellSize);
                 }
@@ -108,36 +127,36 @@ class Grid {
     }
 
     public void drawPlayers(Graphics g, ArrayList<Player> playerList) {
-        for(Player p: playerList) {
-            System.out.println(p.path.size()-1);
-            for(int i = 0; i<p.path.size()-1; i++) {
-                drawPlayer(g,p.path.get(i));
+        for (Player p : playerList) {
+            System.out.println(p.path.size() - 1);
+            for (int i = 0; i < p.path.size() - 1; i++) {
+                drawPlayer(g, p.path.get(i));
                 //g.drawLine(p.path.get(i).x,p.path.get(i).y,p.path.get(i+1).x,p.path.get(i+1).y);
-                DrawCellLine2(g,p.path.get(i),p.path.get(i+1));
+                DrawCellLine2(g, p.path.get(i), p.path.get(i + 1));
             }
-            drawPlayer(g,p.location);
+            drawPlayer(g, p.location);
         }
     }
 
     public void drawPlayer(Graphics g, Vector2 location) {
         g.setColor(Color.BLACK);
-        g.drawOval(getCellMid(location.x,location.y,actualCellSize).x-actualCellSize/4,getCellMid(location.x,location.y,actualCellSize).y-actualCellSize/4,actualCellSize/2,actualCellSize/2);
+        g.drawOval(getCellMid(location.x, location.y, actualCellSize).x - actualCellSize / 4, getCellMid(location.x, location.y, actualCellSize).y - actualCellSize / 4, actualCellSize / 2, actualCellSize / 2);
     }
 
     public void DrawCellLine2(Graphics g, Vector2 a, Vector2 b) {
-        Vector2 ac = getCellMid(a.x,a.y,actualCellSize);
-        Vector2 bc = getCellMid(b.x,b.y,actualCellSize);
-        g.drawLine(ac.x,ac.y,bc.x,bc.y);
+        Vector2 ac = getCellMid(a.x, a.y, actualCellSize);
+        Vector2 bc = getCellMid(b.x, b.y, actualCellSize);
+        g.drawLine(ac.x, ac.y, bc.x, bc.y);
     }
 
-    public void DrawCellLine(Graphics g, int x1, int y1, int x2, int y2,int cellSize) {
+    public void DrawCellLine(Graphics g, int x1, int y1, int x2, int y2, int cellSize) {
         int pdx, pdy, es, el, err;
         int dx = Math.abs(x2 - x1);
         int dy = Math.abs(y2 - y1);
-        int incx = sign(x2-x1);
-        int incy = sign(y2-y1);
+        int incx = sign(x2 - x1);
+        int incy = sign(y2 - y1);
 
-        if (dx > dy){
+        if (dx > dy) {
             pdx = incx;
             pdy = 0;
             es = dy;
@@ -153,7 +172,7 @@ class Grid {
         int y = y1;
         err = el / 2;
         //FillCell(g,x,y,cellSize);
-        for (int t = 0; t < el; t++){
+        for (int t = 0; t < el; t++) {
             err -= es;
             if (err < 0) {
                 err += el;
@@ -163,7 +182,7 @@ class Grid {
                 x += pdx;
                 y += pdy;
             }
-            FillCell(g,x,y,cellSize);
+            FillCell(g, x, y, cellSize);
         }
     }
 
@@ -176,13 +195,13 @@ class Grid {
     }
 
     public Vector2 getCellMid(int cellX, int cellY, int cellSize) {
-        return new Vector2((cellSize + 1) * cellX + 1 + (cellSize/2),(cellSize + 1) * cellY + 1 + (cellSize/2));
+        return new Vector2((cellSize + 1) * cellX + 1 + (cellSize / 2), (cellSize + 1) * cellY + 1 + (cellSize / 2));
     }
 
     public Vector2 CoordsToCell(Vector2 windowCoords) {
         //CellX = floor(WindowCoordsX-1)/(CellSize+1)
-        double CellX = Math.floor(((double)windowCoords.x-1)/((double)actualCellSize+1));
-        double CellY = Math.floor(((double)windowCoords.y-1)/((double)actualCellSize+1));
-        return new Vector2((int)CellX,(int)CellY);
+        double CellX = Math.floor(((double) windowCoords.x - 1) / ((double) actualCellSize + 1));
+        double CellY = Math.floor(((double) windowCoords.y - 1) / ((double) actualCellSize + 1));
+        return new Vector2((int) CellX, (int) CellY);
     }
 }

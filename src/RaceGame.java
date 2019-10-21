@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class RaceGame {
     public static ArrayList<Player> players = new ArrayList<Player>();
+    public static Player currentPlayer;
     public static int mode; //1=Game, 2=Editor
 
     public static void main(String[] args) throws Exception {
@@ -20,13 +21,8 @@ public class RaceGame {
 
             Player tmpPlayer = new Player("testPlayer",myMap.getSpawns().get(0));
             players.add(tmpPlayer);
-            tmpPlayer.Move(myMap,new Vector2(0,1));
+            currentPlayer = tmpPlayer;
 
-            tmpPlayer.Move(myMap,new Vector2(0,1));
-
-            tmpPlayer.Move(myMap,new Vector2(1,1));
-
-            tmpPlayer.Move(myMap,new Vector2(1,1));
             UI.panel.repaint();
 
 
