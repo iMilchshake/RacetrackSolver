@@ -39,7 +39,7 @@ public class Map {
     public int getCell(int x, int y) {
         try {
             return grid[x][y];
-        } catch (Exception e) {
+        } catch (Exception ex) {
             return 1; //if a Cell outside the Grid was accessed, return default value
         }
     }

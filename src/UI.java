@@ -109,15 +109,25 @@ class Grid {
 
     public void drawPlayers(Graphics g, ArrayList<Player> playerList) {
         for(Player p: playerList) {
-            System.out.println("printed player at"+p.location);
-            //g.drawOval(getCellMid(p.location.x,p.location.y,actualCellSize).x,getCellMid(p.location.x,p.location.y,actualCellSize).y,actualCellSize/2,actualCellSize/2);
-            drawPlayer(g,p);
+            System.out.println(p.path.size()-1);
+            for(int i = 0; i<p.path.size()-1; i++) {
+                drawPlayer(g,p.path.get(i));
+                //g.drawLine(p.path.get(i).x,p.path.get(i).y,p.path.get(i+1).x,p.path.get(i+1).y);
+                DrawCellLine2(g,p.path.get(i),p.path.get(i+1));
+            }
+            drawPlayer(g,p.location);
         }
     }
 
-    public void drawPlayer(Graphics g, Player p) {
+    public void drawPlayer(Graphics g, Vector2 location) {
         g.setColor(Color.BLACK);
-        g.drawOval(getCellMid(p.location.x,p.location.y,actualCellSize).x-actualCellSize/4,getCellMid(p.location.x,p.location.y,actualCellSize).y-actualCellSize/4,actualCellSize/2,actualCellSize/2);
+        g.drawOval(getCellMid(location.x,location.y,actualCellSize).x-actualCellSize/4,getCellMid(location.x,location.y,actualCellSize).y-actualCellSize/4,actualCellSize/2,actualCellSize/2);
+    }
+
+    public void DrawCellLine2(Graphics g, Vector2 a, Vector2 b) {
+        Vector2 ac = getCellMid(a.x,a.y,actualCellSize);
+        Vector2 bc = getCellMid(b.x,b.y,actualCellSize);
+        g.drawLine(ac.x,ac.y,bc.x,bc.y);
     }
 
     public void DrawCellLine(Graphics g, int x1, int y1, int x2, int y2,int cellSize) {

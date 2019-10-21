@@ -20,6 +20,13 @@ public class RaceGame {
 
             Player tmpPlayer = new Player("testPlayer",myMap.getSpawns().get(0));
             players.add(tmpPlayer);
+            tmpPlayer.Move(myMap,new Vector2(0,1));
+
+            tmpPlayer.Move(myMap,new Vector2(0,1));
+
+            tmpPlayer.Move(myMap,new Vector2(1,1));
+
+            tmpPlayer.Move(myMap,new Vector2(1,1));
             UI.panel.repaint();
 
 
