@@ -3,10 +3,7 @@
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Random;
-import java.util.Vector;
 
 public class UI {
 
@@ -76,17 +73,16 @@ class Grid {
     }
 
     public void drawPossibleMoves(Graphics g, Player p) {
-        if(p==null || p.location==null)
+        if (p == null || p.location == null)
             return;
 
         for (int x = -1; x <= 1; x++) { //-1 0 1
             for (int y = -1; y <= 1; y++) {//-1 0 1
                 //System.out.println(p.location + " - " + p.velocity);
                 Vector2 to = Vector2.add(p.location, p.velocity); //estimated location after moving
-                if(map.validMove(p.location,new Vector2(to.x+x,to.y+y))) {
+                if (map.validMove(p.location, new Vector2(to.x + x, to.y + y))) {
                     g.setColor(new Color(13, 255, 9, 114));
-                }
-                else {
+                } else {
                     g.setColor(new Color(255, 0, 13, 114));
                 }
                 FillCell(g, to.x + x, to.y + y, actualCellSize);
@@ -133,12 +129,12 @@ class Grid {
         for (Player p : playerList) {
             //System.out.println(p.path.size() - 1);
             for (int i = 0; i < p.path.size() - 1; i++) {
-                drawPlayer(g,p, p.path.get(i));
+                drawPlayer(g, p, p.path.get(i));
                 //g.drawLine(p.path.get(i).x,p.path.get(i).y,p.path.get(i+1).x,p.path.get(i+1).y);
                 g.setColor(Color.BLACK);
                 DrawCellLine2(g, p.path.get(i), p.path.get(i + 1));
             }
-            drawPlayer(g,p, p.location);
+            drawPlayer(g, p, p.location);
         }
     }
 

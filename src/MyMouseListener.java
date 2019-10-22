@@ -1,8 +1,6 @@
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.Vector;
 
 public class MyMouseListener extends MouseAdapter {
 
@@ -12,7 +10,7 @@ public class MyMouseListener extends MouseAdapter {
         this.panel = panel;
     }
 
-    public void mousePressed(MouseEvent e){
+    public void mousePressed(MouseEvent e) {
         try {
             mousePressedOrDragged(e);
         } catch (Exception ex) {
@@ -20,12 +18,12 @@ public class MyMouseListener extends MouseAdapter {
         }
 
         try {
-            if(RaceGame.mode==1) { //GAME INPUT
+            if (RaceGame.mode == 1) { //GAME INPUT
                 Map myMap = panel.myGrid.map;
                 Vector2 coords = panel.myGrid.CoordsToCell(new Vector2(e.getX(), e.getY()));
                 Vector2 estimated = Vector2.add(RaceGame.currentPlayer.location, RaceGame.currentPlayer.velocity);
                 boolean moved = RaceGame.currentPlayer.Move(myMap, Vector2.substract(coords, estimated));
-                if(!moved)
+                if (!moved)
                     System.err.println("invalid move");
                 UI.panel.repaint();
             }
@@ -34,7 +32,7 @@ public class MyMouseListener extends MouseAdapter {
         }
     }
 
-    public void mouseDragged(MouseEvent e){
+    public void mouseDragged(MouseEvent e) {
         try {
             mousePressedOrDragged(e);
         } catch (Exception ex) {
@@ -43,10 +41,10 @@ public class MyMouseListener extends MouseAdapter {
     }
 
     public void mousePressedOrDragged(MouseEvent e) throws Exception {
-        if(RaceGame.mode==2) { //editor
-            UI.MouseClicked(e.getX(),e.getY());
-            Vector2 coords = panel.myGrid.CoordsToCell(new Vector2(e.getX(),e.getY()));
-            if(SwingUtilities.isLeftMouseButton(e))
+        if (RaceGame.mode == 2) { //editor
+            UI.MouseClicked(e.getX(), e.getY());
+            Vector2 coords = panel.myGrid.CoordsToCell(new Vector2(e.getX(), e.getY()));
+            if (SwingUtilities.isLeftMouseButton(e))
                 panel.myGrid.map.setCell(coords.x, coords.y, panel.myGrid.map.editorDrawMode);
         }
     }
