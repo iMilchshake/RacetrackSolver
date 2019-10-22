@@ -133,17 +133,21 @@ class Grid {
         for (Player p : playerList) {
             //System.out.println(p.path.size() - 1);
             for (int i = 0; i < p.path.size() - 1; i++) {
-                drawPlayer(g, p.path.get(i));
+                drawPlayer(g,p, p.path.get(i));
                 //g.drawLine(p.path.get(i).x,p.path.get(i).y,p.path.get(i+1).x,p.path.get(i+1).y);
+                g.setColor(Color.BLACK);
                 DrawCellLine2(g, p.path.get(i), p.path.get(i + 1));
             }
-            drawPlayer(g, p.location);
+            drawPlayer(g,p, p.location);
         }
     }
 
-    public void drawPlayer(Graphics g, Vector2 location) {
+    public void drawPlayer(Graphics g, Player p, Vector2 location) {
         g.setColor(Color.BLACK);
         g.drawOval(getCellMid(location.x, location.y, actualCellSize).x - actualCellSize / 4, getCellMid(location.x, location.y, actualCellSize).y - actualCellSize / 4, actualCellSize / 2, actualCellSize / 2);
+        g.setColor(p.playerColor);
+        g.fillOval(getCellMid(location.x, location.y, actualCellSize).x - actualCellSize / 4, getCellMid(location.x, location.y, actualCellSize).y - actualCellSize / 4, actualCellSize / 2, actualCellSize / 2);
+
     }
 
     public void DrawCellLine2(Graphics g, Vector2 a, Vector2 b) {

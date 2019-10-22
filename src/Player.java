@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Player {
@@ -5,10 +6,12 @@ public class Player {
     public Vector2 location;
     public Vector2 velocity;
     private int moves = 0;
+    public Color playerColor;
     public ArrayList<Vector2> path = new ArrayList<Vector2>();
 
-    public Player(String name, Vector2 spawnLocation) {
+    public Player(String name, Vector2 spawnLocation, Color c) {
         this.name = name;
+        playerColor = c;
         location = spawnLocation;
         velocity = new Vector2(0,0);
         addCurrentLocationToPath();

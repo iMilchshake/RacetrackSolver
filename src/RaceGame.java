@@ -19,7 +19,8 @@ public class RaceGame {
             String map = MenuBuilder.ConsoleInput("Enter Map:");
             myMap.importMap(map);
 
-            Player tmpPlayer = new Player("testPlayer",myMap.getSpawns().get(0));
+            Color c = new Color(5, 114, 255);
+            Player tmpPlayer = new Player("testPlayer",myMap.getSpawns().get(0),c);
             players.add(tmpPlayer);
             currentPlayer = tmpPlayer;
             UI.panel.repaint();
