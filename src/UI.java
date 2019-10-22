@@ -79,14 +79,17 @@ class Grid {
         if(p==null || p.location==null)
             return;
 
-        g.setColor(new Color(0,0,0,150));
         for (int x = -1; x <= 1; x++) { //-1 0 1
             for (int y = -1; y <= 1; y++) {//-1 0 1
-                System.out.println(p.location + " - " + p.velocity);
+                //System.out.println(p.location + " - " + p.velocity);
                 Vector2 to = Vector2.add(p.location, p.velocity); //estimated location after moving
                 if(map.validMove(p.location,new Vector2(to.x+x,to.y+y))) {
-                   FillCell(g, to.x + x, to.y + y, actualCellSize);
+                    g.setColor(new Color(13, 255, 9, 114));
                 }
+                else {
+                    g.setColor(new Color(255, 0, 13, 114));
+                }
+                FillCell(g, to.x + x, to.y + y, actualCellSize);
             }
         }
     }
@@ -128,7 +131,7 @@ class Grid {
 
     public void drawPlayers(Graphics g, ArrayList<Player> playerList) {
         for (Player p : playerList) {
-            System.out.println(p.path.size() - 1);
+            //System.out.println(p.path.size() - 1);
             for (int i = 0; i < p.path.size() - 1; i++) {
                 drawPlayer(g, p.path.get(i));
                 //g.drawLine(p.path.get(i).x,p.path.get(i).y,p.path.get(i+1).x,p.path.get(i+1).y);

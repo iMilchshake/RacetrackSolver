@@ -45,6 +45,9 @@ public class Map {
     }
 
     public boolean validMove(Vector2 from, Vector2 to) {
+        if(getCell(to.x,to.y)==1)
+            return false;
+
         int pdx, pdy, es, el, err;
         int dx = Math.abs(to.x - from.x);
         int dy = Math.abs(to.y - from.y);

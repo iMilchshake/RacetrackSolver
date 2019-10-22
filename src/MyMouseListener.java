@@ -18,6 +18,20 @@ public class MyMouseListener extends MouseAdapter {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+
+        try {
+            if(RaceGame.mode==1) { //GAME INPUT
+                Map myMap = panel.myGrid.map;
+                Vector2 coords = panel.myGrid.CoordsToCell(new Vector2(e.getX(), e.getY()));
+                Vector2 estimated = Vector2.add(RaceGame.currentPlayer.location, RaceGame.currentPlayer.velocity);
+                boolean moved = RaceGame.currentPlayer.Move(myMap, Vector2.substract(coords, estimated));
+                if(!moved)
+                    System.err.println("invalid move");
+                UI.panel.repaint();
+            }
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+        }
     }
 
     public void mouseDragged(MouseEvent e){
@@ -34,14 +48,6 @@ public class MyMouseListener extends MouseAdapter {
             Vector2 coords = panel.myGrid.CoordsToCell(new Vector2(e.getX(),e.getY()));
             if(SwingUtilities.isLeftMouseButton(e))
                 panel.myGrid.map.setCell(coords.x, coords.y, panel.myGrid.map.editorDrawMode);
-        }
-        else if(RaceGame.mode==1) { //GAME
-            Map myMap = panel.myGrid.map;
-            Vector2 coords = panel.myGrid.CoordsToCell(new Vector2(e.getX(),e.getY()));
-            Vector2 estimated = Vector2.add(RaceGame.currentPlayer.location,RaceGame.currentPlayer.velocity);
-            RaceGame.currentPlayer.Move(myMap,Vector2.substract(coords,estimated));
-            UI.panel.repaint();
-
         }
     }
 }

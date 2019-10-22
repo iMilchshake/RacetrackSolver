@@ -23,16 +23,19 @@ public class Player {
     }
 
     public boolean Move(Map m, Vector2 acceleration) throws Exception {
-        if(Math.abs(acceleration.x)>1 || Math.abs(acceleration.y)>1)
-            throw new Exception("Change Vector is too long!");
+            if(Math.abs(acceleration.x)>1 || Math.abs(acceleration.y)>1) {
+                return false;
+            }
 
-        velocity = Vector2.add(velocity,acceleration);
-        Vector2 to = Vector2.add(location,velocity);
+
+        Vector2 newVelocity = Vector2.add(velocity,acceleration);
+        Vector2 to = Vector2.add(location,newVelocity);
         if(m.validMove(location,to)) { //valid move
             location.x = to.x;
             location.y = to.y;
             moves++;
             addCurrentLocationToPath();
+            velocity = newVelocity;
             return true;
         }
         return false; //invalid move

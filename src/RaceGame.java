@@ -22,9 +22,7 @@ public class RaceGame {
             Player tmpPlayer = new Player("testPlayer",myMap.getSpawns().get(0));
             players.add(tmpPlayer);
             currentPlayer = tmpPlayer;
-
             UI.panel.repaint();
-
 
         } else if (selection == 2) {
             mode=2;
@@ -34,9 +32,6 @@ public class RaceGame {
         else {
             System.exit(2);
         }
-
-
-
     }
 
     public RaceGame(Map currentMap) {
