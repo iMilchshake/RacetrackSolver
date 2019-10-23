@@ -30,7 +30,6 @@ public class Player {
             return false;
         }
 
-
         Vector2 newVelocity = Vector2.add(velocity, acceleration);
         Vector2 to = Vector2.add(location, newVelocity);
         if (m.validMove(location, to)) { //valid move
@@ -42,5 +41,28 @@ public class Player {
             return true;
         }
         return false; //invalid move
+    }
+
+    public boolean undoLastMove(Map m) {
+        if(path.size()==1) //Already at spawn, cant reset
+            return false;
+        else if(path.size()==2) { //Reset to spawn
+            path.remove(path.size()-1); //Remove Last position
+            velocity = Vector2.zero();
+            location = path.get(0);
+        }
+
+        //Remove Last position
+        path.remove(path.size()-1);
+
+        //Calculate the Velocity
+        Vector2 a = path.get(path.size()-2);
+        Vector2 b = path.get(path.size()-1);
+
+        //Set new velocity and location
+        velocity = Vector2.substract(b,a);
+        location = path.get(path.size()-1);
+
+        return true;
     }
 }

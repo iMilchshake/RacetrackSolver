@@ -126,6 +126,18 @@ public class Map {
         return spawns;
     }
 
+    public ArrayList<Vector2> getChecks() {
+        ArrayList<Vector2> checks = new ArrayList<Vector2>();
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if (getCell(x, y) == 3) { //Found a Spawn
+                    checks.add(new Vector2(x, y));
+                }
+            }
+        }
+        return checks;
+    }
+
     public String toString() {
         return "[" + name + " - (" + width + "," + height + ")]";
     }

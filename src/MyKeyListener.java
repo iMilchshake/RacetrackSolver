@@ -26,6 +26,11 @@ public class MyKeyListener extends KeyAdapter {
             System.out.println(panel.myGrid.map.exportMap());
             System.out.println(panel.myGrid.map.getSpawns());
             System.out.println(panel.myGrid.map.getSpawns().size());
+            System.out.println(panel.myGrid.map.getChecks());
+            System.out.println(panel.myGrid.map.getChecks().size());
+        } else if (e.getKeyChar()=='r') {
+            RaceGame.currentPlayer.undoLastMove(panel.myGrid.map);
+            panel.repaint();
         } else if (numb!=-1) { //number!
             panel.myGrid.map.editorDrawMode = numb;
         }
