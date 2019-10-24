@@ -38,6 +38,8 @@ public class Player {
             System.out.println(moves++);
             addCurrentLocationToPath();
             velocity = newVelocity;
+
+            System.out.println(path);
             return true;
         }
         return false; //invalid move
@@ -50,6 +52,7 @@ public class Player {
             path.remove(path.size()-1); //Remove Last position
             velocity = Vector2.zero();
             location = path.get(0);
+            return true;
         }
 
         //Remove Last position
@@ -63,6 +66,7 @@ public class Player {
         velocity = Vector2.substract(b,a);
         location = path.get(path.size()-1);
 
+        System.out.println(path);
         return true;
     }
 }
