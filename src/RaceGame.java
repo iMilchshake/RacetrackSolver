@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Vector;
 
 
 public class RaceGame {
@@ -20,8 +21,8 @@ public class RaceGame {
             mode = 1;
             Map myMap = new Map("testMap", 25, 25);
             UI.createAndShowGUI(myMap);
-            String map = MenuBuilder.ConsoleInput("Enter Map:");
-            myMap.importMap(map);
+            String mapString = MenuBuilder.ConsoleInput("Enter Map:");
+            myMap.importMap(mapString);
 
             Color c = new Color(5, 114, 255);
             AI tmpPlayer = new AI("testPlayer", myMap.getSpawns().get(0), c);
@@ -37,14 +38,23 @@ public class RaceGame {
             mode = 1;
             Map myMap = new Map("testMap", 25, 25);
             UI.createAndShowGUI(myMap);
-            String map = MenuBuilder.ConsoleInput("Enter Map:");
-            myMap.importMap(map);
+            String mapString = MenuBuilder.ConsoleInput("Enter Map:");
+            myMap.importMap(mapString);
 
             Color c = new Color(5, 114, 255);
-            Player tmpPlayer = new Player("aiPlayer", myMap.getSpawns().get(0), c);
+            AI tmpPlayer = new AI("aiPlayer", myMap.getSpawns().get(0), c);
             players.add(tmpPlayer);
             currentPlayer = tmpPlayer;
+
+
+            tmpPlayer.findShortestPathToPoint(tmpPlayer.location,myMap.getChecks().get(0),myMap,0);
             UI.panel.repaint();
+
+
+
+            UI.panel.repaint();
+
+            System.out.println("DONE");
         }
         else {
             System.exit(2);

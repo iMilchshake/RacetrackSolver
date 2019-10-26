@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class Vector2 {
     public int x, y;
 
@@ -16,6 +18,15 @@ public class Vector2 {
 
     public static Vector2 zero() {
         return new Vector2(0, 0);
+    }
+
+    public static Vector2 rndDir() {
+        Random rnd = new Random();
+        return new Vector2(rnd.nextInt(3)-1,rnd.nextInt(3)-1);
+    }
+
+    public boolean equals(Vector2 v) {
+       return (x==v.x && y==v.y);
     }
 
     @Override

@@ -31,6 +31,8 @@ public class MyKeyListener extends KeyAdapter {
         } else if (e.getKeyChar()=='r') {
             RaceGame.currentPlayer.undoLastMove(panel.myGrid.map);
             panel.repaint();
+        } else if (e.getKeyChar()=='p') {
+            panel.repaint();
         } else if (numb!=-1) { //number!
             panel.myGrid.map.editorDrawMode = numb;
         }

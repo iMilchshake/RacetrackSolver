@@ -18,7 +18,7 @@ public class MyMouseListener extends MouseAdapter {
         }
 
         try {
-            if (RaceGame.mode == 1) { //GAME INPUT
+            if (RaceGame.mode == 1 ) { //GAME INPUT
                 Map myMap = panel.myGrid.map;
                 Vector2 coords = panel.myGrid.CoordsToCell(new Vector2(e.getX(), e.getY()));
                 Vector2 estimated = Vector2.add(RaceGame.currentPlayer.location, RaceGame.currentPlayer.velocity);
