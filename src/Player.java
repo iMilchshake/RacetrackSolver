@@ -1,12 +1,14 @@
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class Player {
     public String name;
     public Vector2 location;
     public Vector2 velocity;
     public Color playerColor;
-    public ArrayList<Vector2> path = new ArrayList<Vector2>();
+    //public ArrayList<Vector2> path = new ArrayList<Vector2>();
+    public Stack<Vector2> path = new Stack<Vector2>();
     private int moves = 0;
 
     public Player(String name, Vector2 spawnLocation, Color c) {
@@ -14,15 +16,11 @@ public class Player {
         playerColor = c;
         location = spawnLocation;
         velocity = new Vector2(0, 0);
-        addCurrentLocationToPath();
+        path.push(location);
     }
 
     public int getMoves() {
         return moves;
-    }
-
-    public void addCurrentLocationToPath() {
-        path.add(new Vector2(location.x, location.y));
     }
 
     public boolean Move(Map m, Vector2 acceleration) throws Exception {
@@ -32,14 +30,11 @@ public class Player {
 
         Vector2 newVelocity = Vector2.add(velocity, acceleration);
         Vector2 to = Vector2.add(location, newVelocity);
-        if (m.validMove(location, to)) { //valid move
-            location.x = to.x;
-            location.y = to.y;
-            System.out.println(moves++);
-            addCurrentLocationToPath();
-            velocity = newVelocity;
 
-            System.out.println(path);
+        if (m.validMove(location, to)) { //valid move
+            location = to;
+            path.push(location);
+            velocity = newVelocity;
             return true;
         }
         return false; //invalid move
@@ -49,14 +44,14 @@ public class Player {
         if(path.size()==1) //Already at spawn, cant reset
             return false;
         else if(path.size()==2) { //Reset to spawn
-            path.remove(path.size()-1); //Remove Last position
+            path.pop();
             velocity = Vector2.zero();
-            location = path.get(0);
+            location = path.peek();
             return true;
         }
 
         //Remove Last position
-        path.remove(path.size()-1);
+        path.pop();
 
         //Calculate the Velocity
         Vector2 a = path.get(path.size()-2);
@@ -64,9 +59,8 @@ public class Player {
 
         //Set new velocity and location
         velocity = Vector2.substract(b,a);
-        location = path.get(path.size()-1);
+        location = path.peek();
 
-        System.out.println(path);
         return true;
     }
 }

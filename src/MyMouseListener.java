@@ -10,7 +10,7 @@ public class MyMouseListener extends MouseAdapter {
         this.panel = panel;
     }
 
-    public void mousePressed(MouseEvent e) {
+    public void mouseReleased(MouseEvent e) {
         try {
             mousePressedOrDragged(e);
         } catch (Exception ex) {

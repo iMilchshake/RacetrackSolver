@@ -6,5 +6,5 @@ public class AI extends  Player {
         super(name, spawnLocation, c);
     }
 
-
+    
 }

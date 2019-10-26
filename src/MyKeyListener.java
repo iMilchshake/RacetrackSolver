@@ -9,7 +9,7 @@ public class MyKeyListener extends KeyAdapter {
         this.panel = panel;
     }
 
-    public void keyPressed(KeyEvent e) {
+    public void keyReleased(KeyEvent e) {
 
         int numb;
         try {
