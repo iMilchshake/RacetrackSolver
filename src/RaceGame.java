@@ -13,7 +13,7 @@ public class RaceGame {
     }
 
     public static void main(String[] args) throws Exception {
-        String[] subMenuEntries = {"[1] Race", "[2] Map Editor", "[3] AI-Test" , "[4] Exit"};
+        String[] subMenuEntries = {"[1] Race", "[2] Map Editor", "[3] AI-Test" , "[4] Testing","[5] Exit"};
         System.out.print(MenuBuilder.BuildMenu("Racetrack", subMenuEntries, "fonts/standard.flf", 2, 1, 1, 0, 0));
         Integer selection = Integer.parseInt(MenuBuilder.ConsoleInput("Selection: "));
 
@@ -47,14 +47,14 @@ public class RaceGame {
             currentPlayer = tmpPlayer;
 
 
-            tmpPlayer.findShortestPathToPoint(tmpPlayer.location,myMap.getChecks().get(0),myMap,0);
-            UI.panel.repaint();
-
-
 
             UI.panel.repaint();
 
             System.out.println("DONE");
+        }
+        else if (selection == 4) {
+            Testing.testCostFunction();
+            Testing.testCostFunctionSorting();
         }
         else {
             System.exit(2);

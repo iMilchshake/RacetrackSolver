@@ -1,56 +1,87 @@
+import com.sun.deploy.util.ArrayUtil;
+
 import java.awt.*;
-import java.util.Stack;
+import java.util.PriorityQueue;
+import java.util.Vector;
 
-public class AI extends  Player {
+public class AI extends Player {
 
-    public int shortestPath = 999;
+    public PriorityQueue currentNodes;
 
     public AI(String name, Vector2 spawnLocation, Color c) {
         super(name, spawnLocation, c);
+        currentNodes = new PriorityQueue();
     }
 
-    public boolean OLDfindShortestPathToPoint(Vector2 from, Vector2 to, Map m) throws Exception {
-        for(int i=0; i<10; i++) {
+    public static int cost(Vector2 from, Vector2 to) { //x diff + y diff
+        Vector2 diff = Vector2.substract(from, to);
+        return Math.abs(diff.x) + Math.abs(diff.y);
+    }
+
+
+    public boolean findPath(Vector2 to, Map m) {
+        return findPath(to,m,0);
+    }
+
+    public boolean findPath(Vector2 to, Map m, int d) {
+        PriorityQueue<Vector2> nextNodes = new PriorityQueue<Vector2>(new VectorComp(to));
+        for (int x = -1; x <= 1; x++) {
+            for (int y = -1; y <= 1; y++) {
+                nextNodes.add(Vector2.add(location,new Vector2(x,y)));
+            }
+        }
+
+        while(!nextNodes.isEmpty())
+        {
+            Vector2 tmp = nextNodes.poll();
+            System.out.println(tmp + " - " + AI.cost(tmp,to));
+        }
+
+
+
+        return true;
+    }
+
+    public boolean findShortestPathToPointRandomly(Vector2 from, Vector2 to, Map m) throws Exception {
+        for (int i = 0; i < 10; i++) {
             undoLastMove(m);
         }
 
-        for(int i=0; i<10; i++) {
-            if(location.equals(to))
+        for (int i = 0; i < 10; i++) {
+            if (location.equals(to))
                 return true;
 
-            Move(m,Vector2.rndDir());
+            Move(m, Vector2.rndDir());
         }
         return false;
     }
 
-    public boolean findShortestPathToPoint(Vector2 from, Vector2 to, Map m, int d) throws Exception {
+    /*public boolean findShortestPathToPoint(Vector2 from, Vector2 to, Map m, int d) throws Exception {
 
-        if(d>3 || d>shortestPath) {
-            System.out.println("Aborting"+d+"-"+shortestPath);
+        if (d > 3 || d > shortestPath) {
+            System.out.println("Aborting" + d + "-" + shortestPath);
             return true;
         }
 
-        if(location.equals(to)) {
-            shortestPath=d;
+        if (location.equals(to)) {
+            shortestPath = d;
             System.out.println(path);
             System.out.println(shortestPath);
         }
 
-        for(int x=-1; x<=1; x++) {
-            for(int y=-1; y<=1; y++) {
-                boolean val = Move(m,new Vector2(x,y));
-                if(val) {
+        for (int x = -1; x <= 1; x++) {
+            for (int y = -1; y <= 1; y++) {
+                boolean val = Move(m, new Vector2(x, y));
+                if (val) {
                     System.out.println(d);
                     findShortestPathToPoint(from, to, m, d++);
                     undoLastMove(m);
 
-                    if(d>shortestPath)
+                    if (d > shortestPath)
                         return true;
                 }
             }
         }
-
         return true;
-
-    }
+    }*/
 }
