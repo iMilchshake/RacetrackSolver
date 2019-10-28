@@ -19,11 +19,20 @@ public class AI extends Player {
     }
 
 
-    public boolean findPath(Vector2 to, Map m) {
+    public boolean findPath(Vector2 to, Map m) throws Exception {
         return findPath(to,m,0);
     }
 
-    public boolean findPath(Vector2 to, Map m, int d) {
+    public boolean findPath(Vector2 to, Map m, int d) throws Exception {
+
+        if(d>2)
+            return false;
+
+        if(location.equals(to)) {
+            System.err.println("FOUND GOAL");
+            return true;
+        }
+
         PriorityQueue<Vector2> nextNodes = new PriorityQueue<Vector2>(new VectorComp(to));
         for (int x = -1; x <= 1; x++) {
             for (int y = -1; y <= 1; y++) {
@@ -31,15 +40,24 @@ public class AI extends Player {
             }
         }
 
-        while(!nextNodes.isEmpty())
+        while(!nextNodes.isEmpty()) //there are possible steps left
         {
-            Vector2 tmp = nextNodes.poll();
-            System.out.println(tmp + " - " + AI.cost(tmp,to));
+            Vector2 tmp = nextNodes.poll(); //next goal
+            Vector2 neededVel = Vector2.substract(tmp,location);
+
+            //System.out.println(tmp + " - " + AI.cost(tmp,to));
+            boolean valid = Move(m,neededVel); //do the step
+            if(!valid)
+                System.out.println("STUCK!!");
+            System.out.println(neededVel+ " - " + d + " - " + nextNodes.size());
+            if(findPath(to, m, d + 1))
+                return true;
+            undoLastMove(m);
         }
 
 
 
-        return true;
+        return false;
     }
 
     public boolean findShortestPathToPointRandomly(Vector2 from, Vector2 to, Map m) throws Exception {

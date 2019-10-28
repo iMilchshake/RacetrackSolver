@@ -46,8 +46,8 @@ public class RaceGame {
             players.add(tmpPlayer);
             currentPlayer = tmpPlayer;
 
-
-
+            boolean success = tmpPlayer.findPath(myMap.getChecks().get(0),myMap);
+            System.out.println("found goal: "+success);
             UI.panel.repaint();
 
             System.out.println("DONE");
