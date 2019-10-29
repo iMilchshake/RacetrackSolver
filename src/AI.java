@@ -25,7 +25,7 @@ public class AI extends Player {
 
     public boolean findPath(Vector2 to, Map m, int d) throws Exception {
 
-        if(d>2)
+        if(d>20)
             return false;
 
         if(location.equals(to)) {
@@ -40,20 +40,28 @@ public class AI extends Player {
             }
         }
 
+        //MenuBuilder.ConsoleInput("enter pls");
+
         while(!nextNodes.isEmpty()) //there are possible steps left
         {
             Vector2 tmp = nextNodes.poll(); //next goal
             Vector2 neededVel = Vector2.substract(tmp,location);
 
             //System.out.println(tmp + " - " + AI.cost(tmp,to));
-            boolean valid = Move(m,neededVel); //do the step
-            if(!valid)
-                System.out.println("STUCK!!");
-            System.out.println(neededVel+ " - " + d + " - " + nextNodes.size());
-            if(findPath(to, m, d + 1))
-                return true;
-            undoLastMove(m);
+
+            boolean moved = Move(m,neededVel); //do the step
+
+
+            //System.out.println(neededVel+ " - " + d + " - " + nextNodes.size());
+
+            if(moved) {
+                //UI.panel.repaint();
+                if(findPath(to, m, d + 1))
+                    return true;
+                undoLastMove(m);
+            }
         }
+
 
 
 
