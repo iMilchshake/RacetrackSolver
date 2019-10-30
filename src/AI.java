@@ -25,7 +25,7 @@ public class AI extends Player {
 
     public boolean findPath(Vector2 to, Map m, int d) throws Exception {
 
-        if(d>20)
+        if(d>12)
             return false;
 
         if(location.equals(to)) {

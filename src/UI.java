@@ -4,6 +4,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class UI {
 
@@ -57,6 +58,7 @@ class MyPanel extends JPanel {
         myGrid.drawPlayers(g, RaceGame.players);
         if (RaceGame.mode == 1) {
             myGrid.drawPossibleMoves(g, RaceGame.currentPlayer);
+            myGrid.drawPlayerPrediction(g,RaceGame.currentPlayer);
         }
     }
 }
@@ -136,6 +138,31 @@ class Grid {
             }
             drawPlayer(g, p, p.location);
         }
+    }
+
+    public void drawPlayerPrediction(Graphics g, Player p) {
+
+        if (p == null || p.location == null)
+            return;
+
+        Vector2 vel = new Vector2(p.velocity.x,p.velocity.y);
+        Vector2 loc = new Vector2(p.location.x,p.location.y);
+
+        while(!vel.equals(Vector2.zero())) {
+            if(vel.x>0)
+                vel.x-=1;
+            else if(vel.x<0)
+                vel.x+=1;
+
+            if(vel.y>0)
+                vel.y-=1;
+            else if(vel.y<0)
+                vel.y+=1;
+
+            loc = Vector2.add(loc,vel);
+        }
+
+        drawPlayer(g,p,loc);
     }
 
     public void drawPlayer(Graphics g, Player p, Vector2 location) {

@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class Vector2 {
+public class Vector2{
     public int x, y;
 
     public Vector2(int x, int y) {
@@ -33,4 +33,6 @@ public class Vector2 {
     public String toString() {
         return "[" + x + "," + y + "]";
     }
+
+
 }
